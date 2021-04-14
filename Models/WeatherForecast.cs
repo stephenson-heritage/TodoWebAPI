@@ -1,6 +1,6 @@
 using System;
 
-namespace TodoWebAPI
+namespace TodoWebAPI.Models
 {
     public class WeatherForecast
     {
