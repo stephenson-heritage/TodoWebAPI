@@ -31,7 +31,18 @@ namespace TodoWebAPI
 
             services.AddControllers();
 
-            services.AddDbContext<TodoDbContext>(opt => opt.UseInMemoryDatabase("todo"));
+            //services.AddDbContext<TodoDbContext>(opt => opt.UseInMemoryDatabase("todo"));
+
+            services.AddDbContext<TodoDbContext>(opt => opt.UseSqlite(
+               Configuration.GetConnectionString("todo")
+            ));
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("Allow",
+                    b => b.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()
+                );
+            });
 
             services.AddSwaggerGen(c =>
             {

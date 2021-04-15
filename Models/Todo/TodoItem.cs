@@ -1,5 +1,7 @@
 
 
+using System;
+
 namespace TodoWebAPI.Models.Todo
 {
 
@@ -9,6 +11,8 @@ namespace TodoWebAPI.Models.Todo
         public uint TodoItemId { get; set; }
 
         public string Name { get; set; }
+
+        public DateTime Due { get; set; }
 
         public bool IsComplete { get; set; }
 
