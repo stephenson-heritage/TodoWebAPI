@@ -28,7 +28,12 @@ namespace TodoWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("Allow",
+                    b => b.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+                );
+            });
             services.AddControllers();
 
             //services.AddDbContext<TodoDbContext>(opt => opt.UseInMemoryDatabase("todo"));
@@ -37,12 +42,7 @@ namespace TodoWebAPI
                Configuration.GetConnectionString("todo")
             ));
 
-            services.AddCors(opt =>
-            {
-                opt.AddPolicy("Allow",
-                    b => b.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()
-                );
-            });
+
 
             services.AddSwaggerGen(c =>
             {
@@ -60,11 +60,13 @@ namespace TodoWebAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TodoWebAPI v1"));
             }
 
-
+            app.UseCors("Allow");
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+
 
             app.UseAuthorization();
 

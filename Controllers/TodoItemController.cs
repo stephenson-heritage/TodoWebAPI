@@ -43,6 +43,27 @@ namespace TodoWebAPI.Controllers
             return todoItem;
         }
 
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchTodoItem(uint id, TodoItem todoItem)
+        {
+            if (id != todoItem.TodoItemId)
+            {
+                return BadRequest();
+            }
+
+            var item = await _context.TodoItems.FindAsync(id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            item.IsComplete = todoItem.IsComplete;
+            _context.Update(item);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
         // PUT: api/TodoItem/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
